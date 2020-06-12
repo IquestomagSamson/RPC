@@ -1,0 +1,184 @@
+<div class="container">
+  <h3>#Profile</h3>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+
+        <div class="card-body">
+          <div class="userData ml-3">
+            <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a
+              href="javascript:void(0);">{{info.name}}</a></h2>
+            <button type="button" class="btn btn-link border-0" data-toggle="modal"
+                    data-target="#exampleModal" data-whatever="@mdo">Edit Profile
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-link border-0" data-toggle="modal"
+                    data-target="#changpass" data-whatever="@mdo">Change Password
+            </button>
+          </div>
+          <div class="ml-auto">
+            <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab"
+                 aria-controls="basicInfo" aria-selected="true">Information User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab"
+                 aria-controls="connectedServices" aria-selected="false">Connected Services</a>
+            </li>
+          </ul>
+          <div class="tab-content ml-1" id="myTabContent">
+            <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight:bold;">Full Name</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{info.name}}
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight:bold;">UseName</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{info.username}}
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight:bold;">Role</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{info.role}}
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight:bold;">Email</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{info.email}}
+                </div>
+
+              </div>
+              <!--                  <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">-->
+              <ul class="social-pet mt-4">
+                <li><a href="https://www.facebook.com/tien.nghia.967" title="facebook"><i
+                  class="fab fa-facebook-f"></i></a></li>
+                <li><a href="https://twitter.com/nghia_nun" title="twitter"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" title="google-plus"><i class="fab fa-google-plus-g"></i></a></li>
+                <li><a href="https://www.instagram.com/nghianun/?hl=vi" title="instagram"><i
+                  class="fab fa-instagram"></i></a></li>
+              </ul>
+              <!--                  </div>-->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--Modal Update profile-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Update Profile</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="inputName">
+          <div class="form-group">
+            <label class="col-form-label"><u>New Name</u> </label>
+            <input type="text" placeholder="{{info.name}}" formControlName="name" class="form-control">
+          </div>
+          <div class="alert alert-warning" role="alert"
+               *ngIf="inputName.get('name').invalid &&inputName.get('name').touched">
+            Invalid(must longer 3 character)
+          </div>
+          <div class="alert alert-warning" role="alert" *ngIf="isErrorUser">
+            {{errorUser}}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button #closeModalRef type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-primary" (click)="updateUser(closeModalRef)">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--//-->
+
+<!--Modal Change Password-->
+<div class="modal fade" id="changpass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1"><strong>Update Password</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="passForm">
+          <div class="form-group">
+            <label class="col-form-label">Current Password </label>
+            <input id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
+          </div>
+          <div class="alert alert-warning" role="alert"
+               *ngIf="passForm.get('currentPassword').invalid &&passForm.get('currentPassword').touched">
+            Password invalid(must longer 6 and smaller 100 character)
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">New Password</label>
+            <input type="password" class="form-control" formControlName="newPassword">
+          </div>
+          <div class="alert alert-warning" role="alert"
+               *ngIf="passForm.get('newPassword').invalid &&passForm.get('newPassword').touched">
+            Password invalid(must longer 6 and smaller 100 character)
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Confirm Password</label>
+            <input type="password" class="form-control" formControlName="confirmPassword">
+          </div>
+          <div class="alert alert-warning" role="alert"
+               *ngIf="passForm.get('confirmPassword').invalid &&passForm.get('confirmPassword').touched">
+            Password invalid(must longer 6 and smaller 100 character)
+          </div>
+          <div class="alert alert-warning" role="alert" *ngIf="isError">
+            {{error}}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button #closeModalRef1 type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-info" (click)="updatePassword(closeModalRef1)">Change Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
